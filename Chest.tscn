@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://TIles/Chest.png" type="Texture" id=1]
+[ext_resource path="res://TIles/OpenedChest.png" type="Texture" id=2]
+[ext_resource path="res://Chest.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5.17387, 4.36549 )
+
+[node name="Chest" type="Area2D" groups=[
+"chest",
+]]
+script = ExtResource( 3 )
+
+[node name="Chest" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 7.85578, 7.1597 )
+shape = SubResource( 1 )
+
+[node name="OpenedChest" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Hover" type="Sprite" parent="."]
+position = Vector2( 7.77135, -2.44421 )
+
+[node name="HideTimer" type="Timer" parent="."]
+one_shot = true
+[connection signal="timeout" from="HideTimer" to="." method="_on_HideTimer_timeout"]

@@ -1,0 +1,140 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://TileManager.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Camera2D.gd" type="Script" id=4]
+[ext_resource path="res://8bitFont.tres" type="DynamicFont" id=5]
+[ext_resource path="res://TIles/HealthPotion.png" type="Texture" id=7]
+[ext_resource path="res://TIles/Arrow.png" type="Texture" id=8]
+
+[node name="Main" type="Node2D"]
+
+[node name="TileManager" parent="." instance=ExtResource( 1 )]
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 16, 16 )
+easyPlace = Vector2( 1, 1 )
+
+[node name="FollowCamera" type="Camera2D" parent="." groups=[
+"camera",
+]]
+current = true
+script = ExtResource( 4 )
+
+[node name="UI" type="Control" parent="FollowCamera"]
+margin_left = -77.8119
+margin_top = -158.326
+margin_right = 78.0
+margin_bottom = 158.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HP" type="Label" parent="FollowCamera/UI"]
+visible = false
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 5 )
+text = "Hello There!"
+
+[node name="DigBar" type="ProgressBar" parent="FollowCamera/UI"]
+margin_right = 112.025
+margin_bottom = 22.1182
+custom_fonts/font = ExtResource( 5 )
+value = 50.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="XPBar" type="ProgressBar" parent="FollowCamera/UI"]
+margin_top = 22.1182
+margin_right = 112.025
+margin_bottom = 32.0
+rect_scale = Vector2( 0.993756, 1.02929 )
+custom_fonts/font = ExtResource( 5 )
+step = 1.0
+value = 50.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Inv" type="Panel" parent="FollowCamera/UI"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -50.0
+margin_top = -50.0
+margin_right = 50.0
+margin_bottom = 50.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HPPotions" type="Label" parent="FollowCamera/UI/Inv"]
+margin_left = 1.13916
+margin_top = 1.99354
+margin_right = 35.1392
+margin_bottom = 15.9935
+rect_scale = Vector2( 1.67158, 1.52969 )
+custom_fonts/font = ExtResource( 5 )
+text = "7"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthPotion" type="Sprite" parent="FollowCamera/UI/Inv/HPPotions"]
+position = Vector2( 15.6929, 5.30251 )
+scale = Vector2( 0.598236, 0.653727 )
+texture = ExtResource( 7 )
+
+[node name="HPPotions2" type="Label" parent="FollowCamera/UI/Inv"]
+visible = false
+margin_left = 1.13916
+margin_top = 20.9224
+margin_right = 35.1392
+margin_bottom = 34.9224
+rect_scale = Vector2( 1.67158, 1.52969 )
+custom_fonts/font = ExtResource( 5 )
+text = "7"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthPotion" type="Sprite" parent="FollowCamera/UI/Inv/HPPotions2"]
+visible = false
+modulate = Color( 0, 0.0156863, 1, 1 )
+position = Vector2( 15.6929, 5.30251 )
+scale = Vector2( 0.598236, 0.653727 )
+texture = ExtResource( 7 )
+
+[node name="Selector" type="Sprite" parent="FollowCamera/UI/Inv"]
+position = Vector2( -8.67667, 9.73781 )
+texture = ExtResource( 8 )
+
+[node name="LevelText" type="Label" parent="FollowCamera/UI"]
+margin_right = 113.0
+margin_bottom = 193.0
+rect_scale = Vector2( 1.40503, 1.40503 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_fonts/font = ExtResource( 5 )
+text = "Level 5"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LevelTextFadeoutTimer" type="Timer" parent="FollowCamera/UI/LevelText"]
+one_shot = true
+
+[node name="Label" type="Label" parent="FollowCamera/UI"]
+margin_left = 1.95071
+margin_top = 23.8962
+margin_right = 41.9507
+margin_bottom = 37.8962
+custom_fonts/font = ExtResource( 5 )
+[connection signal="timeout" from="FollowCamera/UI/LevelText/LevelTextFadeoutTimer" to="FollowCamera" method="_on_LevelTextFadeoutTimer_timeout"]

@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://TIles/Slime.png" type="Texture" id=1]
+[ext_resource path="res://Slime.gd" type="Script" id=2]
+[ext_resource path="res://8bitFont.tres" type="DynamicFont" id=3]
+
+[node name="Slime" type="Area2D" groups=[
+"slime",
+]]
+script = ExtResource( 2 )
+
+[node name="Slime" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+margin_left = -15.337
+margin_top = -8.22157
+margin_right = 69.4123
+margin_bottom = 5.77843
+rect_scale = Vector2( 0.563607, 0.563607 )
+step = 1.0
+value = 50.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="XP" type="Label" parent="."]
+visible = false
+margin_left = -20.1809
+margin_top = -22.2686
+margin_right = 34.8191
+margin_bottom = -8.26859
+custom_fonts/font = ExtResource( 3 )
+text = "+50 XP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DeathTimer" type="Timer" parent="."]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_DeathTimer_timeout"]
