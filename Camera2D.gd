@@ -2,9 +2,9 @@ extends Camera2D
 
 
 onready var player = self.get_parent().get_node("Player")
-onready var ui = self.get_node("UI")
-onready var inv = self.get_node("UI").get_node("Inv")
-onready var selector = self.get_node("UI").get_node("Inv").get_node("Selector")
+onready var ui = self.get_parent().get_node("CanvasLayer").get_node("UI")
+onready var inv = ui.get_node("Inv")
+onready var selector = ui.get_node("Inv").get_node("Selector")
 const followSpeed = 4.0
 
 var selecting = false
@@ -19,10 +19,15 @@ var invMaxY = 1
 
 
 
+func updateLimits(newLimits: Vector2) -> void:
+	self.limit_right = newLimits.x
+	self.limit_bottom = newLimits.y
+
+
 # RUNS PRE ON-READY
 func levelTextStart(levelText) -> void:
-	self.get_node("UI").get_node("LevelText").text = levelText
-	self.get_node("UI").get_node("LevelText").get_node("LevelTextFadeoutTimer").start()
+	self.get_parent().get_node("CanvasLayer").get_node("UI").get_node("LevelText").text = levelText
+	self.get_parent().get_node("CanvasLayer").get_node("UI").get_node("LevelText").get_node("LevelTextFadeoutTimer").start()
 
 
 func moveSelect(dir: Vector2):

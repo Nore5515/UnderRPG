@@ -3,7 +3,7 @@ extends Node2D
 
 var tiles
 onready var player = self.get_parent().get_node("Player")
-onready var camera = get_tree().get_nodes_in_group("camera")[0]
+onready var camera: Camera2D = get_tree().get_nodes_in_group("camera")[0]
 onready var tilemap: TileMap = self.get_node("TileMap")
 onready var chests = get_tree().get_nodes_in_group("chest")
 onready var chest = load("res://Chest.tscn")
@@ -29,9 +29,11 @@ var dirt = 0
 
 var rng = RandomNumberGenerator.new()
 
-# 22x18
+# 22x18 is default
 var potentialMap
 var mapSize = Vector2(22,18)
+export (Vector2) var mapXRange
+export (Vector2) var mapYRange
 var rockChance = 0.25
 var slimeChance = 0.01
 var chestChance = 0.01
@@ -39,6 +41,16 @@ var chestChance = 0.01
 onready var deathY# = tilemap.world_to_map(self.get_node("Red").position).y
 var initDeathY = -5
 
+
+
+func updateMapSizes() -> void:
+	if mapXRange != Vector2() && mapYRange != Vector2():
+		mapSize.x = rng.randi_range(mapXRange.x, mapXRange.y)
+		mapSize.y = rng.randi_range(mapYRange.x, mapYRange.y)
+		var betterMapSize = mapSize
+		betterMapSize.x += 4
+		betterMapSize.y += 4
+		camera.updateLimits(betterMapSize * 16)
 
 
 func addSlime(mapLoc: Vector2) -> void:
@@ -170,6 +182,7 @@ func isAdjacentToPlayer(mapLoc: Vector2) -> bool:
 
 func updateWithNewMap():
 	tilemap.clear()
+	updateMapSizes()
 	potentialMap = create2DArray(mapSize)
 	slimes = get_tree().get_nodes_in_group("slime")
 	chests = get_tree().get_nodes_in_group("chest")
@@ -186,6 +199,7 @@ func updateWithNewMap():
 
 func _ready():
 	rng.randomize()
+	updateMapSizes()
 	player.setPosition()
 	player.updateFromGlobal()
 	readyChests()
