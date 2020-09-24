@@ -6,8 +6,8 @@ var maxDigPower = 100
 var digPower = 100
 var digEnergyRequired = 1
 
-var XP = 0
-var maxXP = 100
+var cash = 0
+var maxCash = 10
 
 var damage = 10
 var speed = 16
@@ -17,58 +17,33 @@ var deathTickMax = 3
 
 export (Vector2) var easyPlace
 
-var items = {
-	"hpPot": {
-		"name": "Health Potion",
-		"count": 0,
-		"healAmount": 30
-	},
-	"empty": {
-		"name": "EMPTY ERR",
-		"count": -1
-	}
-}
-
-var inventory = {
-	"Col1": {
-		"Row1": items["hpPot"]
-	},
-	"Col2": {
-		"Row1": items["empty"]
-	}
-}
-
 onready var tileManager = self.get_parent().get_node("TileManager")
 
 var selecting
 
 
 
+
+
+func _ready():
+	updateFromGlobal()
+
+
+func getReward(incReward: int) -> void:
+	get_node("/root/Global").getReward(incReward)
+	updateFromGlobal()
+
+
 func updateFromGlobal() -> void:
 	if get_node("/root/Global").playerStats["alive"]:
 		digPower = get_node("/root/Global").playerStats["digPower"]
-		XP = get_node("/root/Global").playerStats["XP"]
-		items = get_node("/root/Global").items
-		inventory = get_node("/root/Global").playerInv
-
-
-func getXP(incXP: int) -> void:
-	XP += incXP
-	if XP >= maxXP:
-		print ("Level up!")
-		XP -= maxXP
+		maxDigPower = get_node("/root/Global").playerStats["maxDigPower"]
+		cash = get_node("/root/Global").playerStats["cash"]
 
 
 func reachGate() -> void:
-	get_node("/root/Global").playerStats = {
-		"digPower": digPower,
-		"XP": XP,
-		"alive": true
-	}
-	get_node("/root/Global").playerInv = inventory
-	get_node("/root/Global").items = items
+	get_node("/root/Global").updateStats(digPower, maxDigPower, cash)
 	get_node("/root/Global").nextLevel()
-	get_tree().change_scene("res://Main.tscn")
 
 
 func checkDeath() -> void:
@@ -77,7 +52,7 @@ func checkDeath() -> void:
 	if deathTick >= deathTickMax:
 		deathTick = 0
 		tileManager.moveDeath()
-	
+
 
 func setPosition() -> void:
 	if easyPlace != Vector2(0,0):
@@ -89,41 +64,56 @@ func gameover() -> void:
 	get_tree().change_scene("res://TitleScene.tscn")
 
 
-func activateLoot(lootName: String):
-	if lootName == "Health Potion":
-		if items["hpPot"]["count"] > 0:
-			items["hpPot"]["count"] -= 1
-			checkDeath()
-			if digPower + items["hpPot"]["healAmount"] > maxDigPower:
-				digPower = maxDigPower
-			else:
-				digPower += items["hpPot"]["healAmount"]
+func activateLoot(loot: Item):
+	if loot.type == "hpPot":
+		if hasHPPotion():
+			eatLoot("hpPot")
 	else:
 		print ("nah")
-	
+	updateFromGlobal()
+
+
+func eatLoot(lootName: String) -> bool:
+	for item in get_node("/root/Global").playerInv:
+		if item.type == lootName:
+			item.activate()
+			updateFromGlobal()
+			get_node("/root/Global").playerInv.erase(item)
+			return true
+	return false
+
+
+func hasHPPotion() -> bool:
+	for item in get_node("/root/Global").playerInv:
+		if item.type == "hpPot":
+			return true
+	return false
+
 
 func addLoot(itemName: String, amount: int) -> void:
-	items[itemName]["count"] += amount
-	
+	var newItem
+	for x in range(amount):
+		newItem = Item.new()
+		newItem.setItem("hpPot", get_node("/root/Global"))
+		get_node("/root/Global").addItem(newItem)
+	get_node("/root/Global").updateStats(digPower, maxDigPower, cash)
+
 
 func getItemCount (itemName: String) -> int:
-	return items[itemName]["count"]
-	
+	var count = 0
+	for item in get_node("/root/Global").playerInv:
+		if item.type == itemName:
+			count += 1
+	return count
+
 
 func useLoot(lootLoc) -> void:
-	var temp
-	# JUST FOR MY SAKE
-	lootLoc = Vector2(lootLoc.x + 1, lootLoc.y + 1)
-	if lootLoc.y == 1:
-		temp = inventory["Col1"]
-	elif lootLoc.y == 2:
-		temp = inventory["Col2"]
-	
-	if lootLoc.x == 1:
-		temp = temp["Row1"]
-		
-	activateLoot(temp["name"])
-	
+	if get_node("/root/Global").playerInv.size() > 0:
+		var temp = 0
+		temp += lootLoc.y * 4
+		temp += lootLoc.x
+		activateLoot(get_node("/root/Global").playerInv[temp])
+
 
 func setSelecting(incBool) -> void:
 	selecting = incBool
@@ -132,6 +122,7 @@ func setSelecting(incBool) -> void:
 func hit(incDamage) -> void:
 	digPower -= incDamage
 	checkDeath()
+	get_node("/root/Global").updateStats(digPower, maxDigPower, cash)
 
 
 # HEY WE SHOULD BE CHECKING OCCUPIED EVERY TIME
@@ -141,12 +132,14 @@ func move(dir: Vector2) -> void:
 			digPower -= digEnergyRequired
 			checkDeath()
 	else:
+		# If there's air
 		if tileManager.isEmpty(dir*speed + position):
 			translate(dir * speed)
 			checkDeath()
 		elif digPower-digEnergyRequired < 0:
 			# dont move cus it'd put you in negative
 			pass
+		# If there's dirt
 		else:
 			tileManager.paintEmpty(dir*speed + position)
 			digPower -= digEnergyRequired

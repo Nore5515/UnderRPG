@@ -6,14 +6,18 @@ export (Vector2) var easyPlace
 var damage = 10
 var maxHP = 30
 var HP = 30
+var cash = 1
 
-var xpReward = 50
+
+
+func getReward() -> int:
+	return cash
 
 
 func gameOver():
 	self.get_node("Slime").visible = false
 	self.get_node("ProgressBar").visible = false
-	self.get_node("XP").visible = true
+	self.get_node("Reward").visible = true
 	self.remove_from_group("slime")
 	self.get_node("DeathTimer").start()
 
@@ -39,6 +43,8 @@ func _ready():
 	self.get_node("ProgressBar").max_value = maxHP
 	self.get_node("ProgressBar").value = HP
 	self.get_node("ProgressBar").visible = false
+	self.get_node("Reward").visible = false
+	self.get_node("Reward").text = "+" + String(cash)
 
 
 func _on_DeathTimer_timeout():
