@@ -26,14 +26,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="XP" type="Label" parent="."]
-visible = false
+[node name="Reward" type="Label" parent="."]
 margin_left = -20.1809
 margin_top = -22.2686
 margin_right = 34.8191
 margin_bottom = -8.26859
 custom_fonts/font = ExtResource( 3 )
-text = "+50 XP"
+text = "+5"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

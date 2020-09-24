@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://TileManager.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://TIles/selector.png" type="Texture" id=3]
 [ext_resource path="res://Camera2D.gd" type="Script" id=4]
 [ext_resource path="res://8bitFont.tres" type="DynamicFont" id=5]
 [ext_resource path="res://TIles/HealthPotion.png" type="Texture" id=7]
@@ -11,7 +12,7 @@
 
 [node name="TileManager" parent="." instance=ExtResource( 1 )]
 mapXRange = Vector2( 12, 20 )
-mapYRange = Vector2( 6, 12 )
+mapYRange = Vector2( 8, 30 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 16, 16 )
@@ -32,9 +33,9 @@ script = ExtResource( 4 )
 
 [node name="UI" type="Control" parent="CanvasLayer"]
 margin_left = 2.75355
-margin_top = 1.78177
+margin_top = 1.56713
 margin_right = 158.565
-margin_bottom = 318.108
+margin_bottom = 317.893
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -51,7 +52,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="XPBar" type="ProgressBar" parent="CanvasLayer/UI"]
+[node name="CashBar" type="ProgressBar" parent="CanvasLayer/UI"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -77.1443
@@ -81,48 +82,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HPPotions" type="Label" parent="CanvasLayer/UI/Inv"]
-margin_left = 1.13916
-margin_top = 1.99354
-margin_right = 35.1392
-margin_bottom = 15.9935
-rect_scale = Vector2( 1.67158, 1.52969 )
-custom_fonts/font = ExtResource( 5 )
-text = "7"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HealthPotion" type="Sprite" parent="CanvasLayer/UI/Inv/HPPotions"]
-position = Vector2( 15.6929, 5.30251 )
-scale = Vector2( 0.598236, 0.653727 )
-texture = ExtResource( 7 )
-
-[node name="HPPotions2" type="Label" parent="CanvasLayer/UI/Inv"]
-visible = false
-margin_left = 1.13916
-margin_top = 20.9224
-margin_right = 35.1392
-margin_bottom = 34.9224
-rect_scale = Vector2( 1.67158, 1.52969 )
-custom_fonts/font = ExtResource( 5 )
-text = "7"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HealthPotion" type="Sprite" parent="CanvasLayer/UI/Inv/HPPotions2"]
-visible = false
-modulate = Color( 0, 0.0156863, 1, 1 )
-position = Vector2( 15.6929, 5.30251 )
-scale = Vector2( 0.598236, 0.653727 )
-texture = ExtResource( 7 )
-
 [node name="Selector" type="Sprite" parent="CanvasLayer/UI/Inv"]
 position = Vector2( -8.67667, 9.73781 )
 texture = ExtResource( 8 )
 
+[node name="HealthPotion" type="Sprite" parent="CanvasLayer/UI/Inv"]
+visible = false
+position = Vector2( 8.66895, 8.69992 )
+texture = ExtResource( 7 )
+
 [node name="LevelText" type="Label" parent="CanvasLayer/UI"]
+visible = false
 margin_right = 113.0
 margin_bottom = 193.0
 rect_scale = Vector2( 1.40503, 1.40503 )
@@ -138,4 +108,10 @@ __meta__ = {
 
 [node name="LevelTextFadeoutTimer" type="Timer" parent="CanvasLayer/UI/LevelText"]
 one_shot = true
+
+[node name="121231" type="Sprite" parent="."]
+position = Vector2( 159.211, 52.9155 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 81, 3, 15, 11 )
 [connection signal="timeout" from="CanvasLayer/UI/LevelText/LevelTextFadeoutTimer" to="FollowCamera" method="_on_LevelTextFadeoutTimer_timeout"]

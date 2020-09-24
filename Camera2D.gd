@@ -6,6 +6,7 @@ onready var ui = self.get_parent().get_node("CanvasLayer").get_node("UI")
 onready var inv = ui.get_node("Inv")
 onready var selector = ui.get_node("Inv").get_node("Selector")
 const followSpeed = 4.0
+onready var potionIcon = load("res://TIles/HealthPotion.png")
 
 var selecting = false
 var levelTextFading = false
@@ -14,10 +15,28 @@ var invX = 0
 var invBufferX = 0
 var invMaxX = 0
 var invY = 0
-var invBufferY = 20
-var invMaxY = 1
+var invBufferY = 16
+var invMaxY = 4
+
+var currentInvTiles = []
 
 
+
+func updateInv() -> void:
+	for item in currentInvTiles:
+		item.visible = false
+	var y = 0
+	var inst
+	if get_node("/root/Global").playerInv.size() > 0:
+		for item in get_node("/root/Global").playerInv:
+			inst = Sprite.new()
+			currentInvTiles.append(inst)
+			inst.texture = load("res://TIles/HealthPotion.png")
+			inst.centered = false
+			inst.position = Vector2(0, y)
+			inv.add_child(inst)
+			y += 16
+		
 
 func updateLimits(newLimits: Vector2) -> void:
 	self.limit_right = newLimits.x
@@ -41,6 +60,8 @@ func moveSelect(dir: Vector2):
 
 
 func _input(event):
+	updateUI()
+	updateInv()
 	if event.is_action_pressed("Inv"):
 		inv.visible = !inv.visible
 		selecting = !selecting
@@ -59,13 +80,14 @@ func _input(event):
 
 
 func updateUI():
-	ui.get_node("XPBar").max_value = player.maxXP
-	ui.get_node("XPBar").value = player.XP
+	ui.get_node("CashBar").max_value = player.maxCash
+	ui.get_node("CashBar").value = player.cash
 	ui.get_node("DigBar").max_value = player.maxDigPower
 	ui.get_node("DigBar").value = player.digPower
-	inv.get_node("HPPotions").text = String(player.getItemCount("hpPot"))
 	if levelTextFading:
 		fadeLevelText()
+	updateInv()
+
 
 func followPlayer(delta):
 	var player_pos = player.position
@@ -74,7 +96,7 @@ func followPlayer(delta):
 
 func _process(delta):
 	followPlayer(delta)
-	updateUI()	
+	#updateUI()
 
 
 # LERP THE ALPHA ON THE MODULATE TO FADEOUT

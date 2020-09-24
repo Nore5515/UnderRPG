@@ -122,8 +122,8 @@ func readySlimes() -> void:
 
 
 func readyDeath() -> void:
-	if get_node("/root/Global").level + initDeathY  > 0:
-		deathY = 0
+	if get_node("/root/Global").level + initDeathY  > -1:
+		deathY = -1
 	else:
 		deathY = get_node("/root/Global").level + initDeathY
 	self.get_node("Red").position.y = tilemap.map_to_world(Vector2(0,deathY)).y
@@ -290,7 +290,7 @@ func checkSlimes(mapLoc: Vector2):
 		#print (slimeMapLoc, "=?", mapLoc)
 		if slimeMapLoc == mapLoc:
 			if slime.hit(player.damage):
-				player.getXP(slime.xpReward)
+				player.getReward(slime.getReward())
 			else:
 				player.hit(slime.damage)
 			return true
