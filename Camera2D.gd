@@ -27,15 +27,16 @@ func updateInv() -> void:
 		item.visible = false
 	var y = 0
 	var inst
-	if get_node("/root/Global").playerInv.size() > 0:
-		for item in get_node("/root/Global").playerInv:
-			inst = Sprite.new()
-			currentInvTiles.append(inst)
-			inst.texture = load("res://TIles/HealthPotion.png")
-			inst.centered = false
-			inst.position = Vector2(0, y)
-			inv.add_child(inst)
-			y += 16
+	if get_node("/root/Global").playerInv != null:
+		if get_node("/root/Global").playerInv.size() > 0:
+			for item in get_node("/root/Global").playerInv:
+				inst = Sprite.new()
+				currentInvTiles.append(inst)
+				inst.texture = load("res://TIles/HealthPotion.png")
+				inst.centered = false
+				inst.position = Vector2(0, y)
+				inv.add_child(inst)
+				y += 16
 		
 
 func updateLimits(newLimits: Vector2) -> void:

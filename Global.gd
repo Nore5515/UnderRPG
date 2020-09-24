@@ -64,7 +64,7 @@ func reset() -> void:
 		"cash": 0,
 		"alive": false
 	}
-	playerInv = null
+	playerInv = []
 	level = 1
 
 

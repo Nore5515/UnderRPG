@@ -78,6 +78,8 @@ func genItems():
 				if temp < shopOdds["coinUp"]:
 					item.setItem("coinUp",get_node("/root/Global"))
 	
+	updateItems()
+	
 
 func _process(delta):
 	pivot.look_at(get_global_mouse_position())

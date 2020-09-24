@@ -17,12 +17,72 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -29.0
-margin_top = -10.0
+margin_top = -33.9495
 margin_right = 29.0
-margin_bottom = 10.0
+margin_bottom = -13.9495
 custom_fonts/font = ExtResource( 1 )
 text = "BEGIN"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="HELP" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = -1.61765
+margin_right = 29.0
+margin_bottom = 18.3824
+custom_fonts/font = ExtResource( 1 )
+text = "HELP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="helpinfo" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -80.0
+margin_top = -120.0
+margin_right = 82.0
+custom_fonts/font = ExtResource( 1 )
+text = "Use Arrow Keys or WASD to move.
+Hit ESC to open your inventory.
+Hit Z or ENTER to use an item.
+Hit space to skip a turn."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="."]
+margin_left = -94.9898
+margin_top = 3.98161
+margin_right = 65.0102
+margin_bottom = 96.9816
+rect_scale = Vector2( 2.19438, 2.19438 )
+custom_fonts/font = ExtResource( 1 )
+text = "NOT 
+FROGGER"
+align = 1
+
+[node name="Subtitle" type="Label" parent="Title"]
+margin_left = 43.8062
+margin_top = 29.2905
+margin_right = 204.669
+margin_bottom = 60.7592
+rect_scale = Vector2( 0.453726, 0.453726 )
+custom_fonts/font = ExtResource( 1 )
+text = "It's not frogger! Stop asking!"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="HELP" to="." method="_on_HELP_pressed"]
