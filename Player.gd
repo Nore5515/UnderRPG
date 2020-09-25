@@ -61,7 +61,7 @@ func setPosition() -> void:
 
 func gameover() -> void:
 	get_node("/root/Global").reset()
-	get_tree().change_scene("res://TitleScene.tscn")
+	get_tree().change_scene("res://GameOver.tscn")
 
 
 func activateLoot(loot: Item):

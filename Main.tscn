@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://TileManager.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://TIles/selector.png" type="Texture" id=3]
+[ext_resource path="res://Arts/rpgicons.png" type="Texture" id=3]
 [ext_resource path="res://Camera2D.gd" type="Script" id=4]
 [ext_resource path="res://8bitFont.tres" type="DynamicFont" id=5]
 [ext_resource path="res://TIles/HealthPotion.png" type="Texture" id=7]
-[ext_resource path="res://TIles/Arrow.png" type="Texture" id=8]
 
 [node name="Main" type="Node2D"]
 
@@ -84,7 +83,9 @@ __meta__ = {
 
 [node name="Selector" type="Sprite" parent="CanvasLayer/UI/Inv"]
 position = Vector2( -8.67667, 9.73781 )
-texture = ExtResource( 8 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 81, 3, 15, 11 )
 
 [node name="HealthPotion" type="Sprite" parent="CanvasLayer/UI/Inv"]
 visible = false
@@ -108,10 +109,4 @@ __meta__ = {
 
 [node name="LevelTextFadeoutTimer" type="Timer" parent="CanvasLayer/UI/LevelText"]
 one_shot = true
-
-[node name="121231" type="Sprite" parent="."]
-position = Vector2( 159.211, 52.9155 )
-texture = ExtResource( 3 )
-region_enabled = true
-region_rect = Rect2( 81, 3, 15, 11 )
 [connection signal="timeout" from="CanvasLayer/UI/LevelText/LevelTextFadeoutTimer" to="FollowCamera" method="_on_LevelTextFadeoutTimer_timeout"]

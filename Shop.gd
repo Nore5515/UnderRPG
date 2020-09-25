@@ -19,7 +19,10 @@ var shopOdds = {
 func buyItem(item: Item, number: int):
 	if global.playerStats["cash"] >= 1:
 		global.playerStats["cash"] -= 1
-		print(global.addLoot(item.type, 1))
+		if item.type == "coinUp":
+			global.addLoot(item.type, item.moneyAmount)
+		else:
+			global.addLoot(item.type, 1)
 		if number == 1:
 			$Item1.visible = false
 		elif number == 2:
@@ -77,6 +80,8 @@ func genItems():
 				temp -= shopOdds["hpPot"]
 				if temp < shopOdds["coinUp"]:
 					item.setItem("coinUp",get_node("/root/Global"))
+	
+	updateItems()
 	
 
 func _process(delta):

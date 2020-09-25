@@ -10,9 +10,9 @@
 script = ExtResource( 3 )
 
 [node name="shopBG" type="Sprite" parent="."]
-position = Vector2( 80.9595, 159.77 )
-scale = Vector2( 0.83489, 0.859508 )
+scale = Vector2( 0.997912, 1.00398 )
 texture = ExtResource( 4 )
+centered = false
 
 [node name="Pivot" type="Node2D" parent="."]
 position = Vector2( 81.247, -17.0232 )

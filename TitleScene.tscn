@@ -1,9 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://8bitFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://TitleScene.gd" type="Script" id=2]
+[ext_resource path="res://TileManager.tscn" type="PackedScene" id=3]
 
-[node name="TitleScene" type="Control"]
+[node name="TitleScene" type="Control" groups=[
+"camera",
+]]
 margin_right = 160.0
 margin_bottom = 318.0
 script = ExtResource( 2 )
@@ -11,18 +14,91 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TileManager" parent="." instance=ExtResource( 3 )]
+position = Vector2( -68.674, 29.0114 )
+scale = Vector2( 0.999812, 0.999812 )
+demo = true
+
 [node name="Button" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -29.0
-margin_top = -10.0
+margin_top = -33.9495
 margin_right = 29.0
-margin_bottom = 10.0
+margin_bottom = -13.9495
 custom_fonts/font = ExtResource( 1 )
 text = "BEGIN"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="HELP" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = -1.61765
+margin_right = 29.0
+margin_bottom = 18.3824
+custom_fonts/font = ExtResource( 1 )
+text = "HELP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="helpinfo" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -80.0
+margin_top = -120.0
+margin_right = 82.0
+custom_fonts/font = ExtResource( 1 )
+text = "Use Arrow Keys or WASD to move.
+Hit ESC to open your inventory.
+Hit Z or ENTER to use an item.
+Hit space to skip a turn."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Node2D" parent="."]
+position = Vector2( 76.0775, 34.625 )
+
+[node name="TitleText" type="Label" parent="Title"]
+margin_left = -174.969
+margin_top = -31.6187
+margin_right = -14.9687
+margin_bottom = 61.3813
+rect_scale = Vector2( 2.19438, 2.19438 )
+custom_fonts/font = ExtResource( 1 )
+text = "NOT 
+FROGGER"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Subtitle" type="Label" parent="Title/TitleText"]
+margin_left = 43.8062
+margin_top = 29.2905
+margin_right = 204.669
+margin_bottom = 60.7592
+rect_scale = Vector2( 0.453726, 0.453726 )
+custom_fonts/font = ExtResource( 1 )
+text = "It's not frogger! Stop asking!"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player" type="Node2D" parent="."]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="HELP" to="." method="_on_HELP_pressed"]

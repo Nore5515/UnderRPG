@@ -11,6 +11,9 @@ var global
 # POTION STUFF
 var healAmount: int
 
+# MONEY STUFF
+var moneyAmount: int
+
 
 
 func activate():
@@ -21,10 +24,14 @@ func activate():
 
 func setItem(_type: String, _global):
 	type = _type
+	global = _global
 	if type == "hpPot":
 		itemName = "Health Potion"
 		healAmount = 30
-	global = _global
+	elif type == "coinUp":
+		itemName = "Coin Up"
+		moneyAmount = 4
+		global.getReward(moneyAmount)
 	print (type)
 
 
