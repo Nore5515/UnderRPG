@@ -10,6 +10,8 @@ onready var chest = load("res://Chest.tscn")
 onready var slimes = get_tree().get_nodes_in_group("slime")
 onready var slime = load("res://Slime.tscn")
 
+export (bool) var demo = false
+
 # these are the 3 phases of boulders
 var boulders = {
 	"1": 6,
@@ -130,8 +132,9 @@ func readyDeath() -> void:
 
 
 func isAdjacentToAnything(mapLoc: Vector2) -> bool:
-	if isAdjacentToPlayer(mapLoc):
-		return true
+	if !demo:
+		if isAdjacentToPlayer(mapLoc):
+			return true
 	if isAdjacentToChests(mapLoc):
 		return true
 	if isAdjacentToEnemies(mapLoc):
@@ -198,16 +201,23 @@ func updateWithNewMap():
 
 
 func _ready():
-	rng.randomize()
-	updateMapSizes()
-	player.setPosition()
-	player.updateFromGlobal()
-	readyChests()
-	readySlimes()
-	readyDeath()
-	updateWithNewMap()
-	camera.levelTextStart("Level " + String(get_node("/root/Global").level))
-
+	if !demo:
+		rng.randomize()
+		updateMapSizes()
+		player.setPosition()
+		player.updateFromGlobal()
+		readyChests()
+		readySlimes()
+		readyDeath()
+		updateWithNewMap()
+		camera.levelTextStart("Level " + String(get_node("/root/Global").level))
+	else:
+		rng.randomize()
+		updateMapSizes()
+		readyChests()
+		readySlimes()
+		readyDeath()
+		updateWithNewMap()
 
 # returns a 2D array of tiles, with randomly placed thingies
 func create2DArray(size: Vector2):

@@ -46,10 +46,13 @@ func addHealth(healAmount: int) -> void:
 
 func addLoot(itemName: String, amount: int) -> void:
 	var newItem
-	for x in range(amount):
-		newItem = Item.new()
-		newItem.setItem("hpPot", get_node("/root/Global"))
-		addItem(newItem)
+	if itemName == "coinUp":
+		getReward(amount)
+	else:
+		for x in range(amount):
+			newItem = Item.new()
+			newItem.setItem("hpPot", get_node("/root/Global"))
+			addItem(newItem)
 
 
 func addItem(item: Item) -> bool:

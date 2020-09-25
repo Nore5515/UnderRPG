@@ -1,15 +1,23 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://8bitFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://TitleScene.gd" type="Script" id=2]
+[ext_resource path="res://TileManager.tscn" type="PackedScene" id=3]
 
-[node name="TitleScene" type="Control"]
+[node name="TitleScene" type="Control" groups=[
+"camera",
+]]
 margin_right = 160.0
 margin_bottom = 318.0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TileManager" parent="." instance=ExtResource( 3 )]
+position = Vector2( -68.674, 29.0114 )
+scale = Vector2( 0.999812, 0.999812 )
+demo = true
 
 [node name="Button" type="Button" parent="."]
 anchor_left = 0.5
@@ -60,18 +68,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="Label" parent="."]
-margin_left = -94.9898
-margin_top = 3.98161
-margin_right = 65.0102
-margin_bottom = 96.9816
+[node name="Title" type="Node2D" parent="."]
+position = Vector2( 76.0775, 34.625 )
+
+[node name="TitleText" type="Label" parent="Title"]
+margin_left = -174.969
+margin_top = -31.6187
+margin_right = -14.9687
+margin_bottom = 61.3813
 rect_scale = Vector2( 2.19438, 2.19438 )
 custom_fonts/font = ExtResource( 1 )
 text = "NOT 
 FROGGER"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Subtitle" type="Label" parent="Title"]
+[node name="Subtitle" type="Label" parent="Title/TitleText"]
 margin_left = 43.8062
 margin_top = 29.2905
 margin_right = 204.669
@@ -84,5 +98,7 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Player" type="Node2D" parent="."]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="HELP" to="." method="_on_HELP_pressed"]
